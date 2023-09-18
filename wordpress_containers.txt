@@ -1,0 +1,24 @@
+for i in {1..2}; do
+    # MySQL 컨테이너 실행
+    docker run \
+    --name mysql_$i \
+    --network wordpress_network \
+    -e MYSQL_ROOT_PASSWORD='Jk4$7d!o2P#t' \
+    -e MYSQL_DATABASE=wordpress \
+    -e MYSQL_USER=cchi9033 \
+    -e MYSQL_PASSWORD=1q2w3e4r#### \
+    -d mysql:5.7
+
+    # 배포 작업 대기
+    sleep 30
+
+    # 워드프레스 컨테이너 실행
+    docker run \
+    --name wordpress_$i \
+    --network wordpress_network \
+    -e WORDPRESS_DB_HOST=mysql_$i \
+    -e WORDPRESS_DB_USER=wp_user \
+    -e WORDPRESS_DB_PASSWORD=wp_password \
+    -p 808$i:80 \
+    -d wordpress
+done
